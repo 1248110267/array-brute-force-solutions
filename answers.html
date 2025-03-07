@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brute Force Solutions to Array Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+        .sidebar h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            color: #00ccff;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            max-width: 800px;
+        }
+        .question {
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        pre {
+            background-color: #000; /* Black background for solutions */
+            color: #e0e0e0; /* Light gray text for contrast */
+            padding: 10px;
+            border-left: 3px solid #0066cc;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
+        }
+        p {
+            line-height: 1.6;
+        }
+        .anchor {
+            position: relative;
+            top: -80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Questions</h2>
+        <ul>
+            <li><a href="#q1">Q1: Two Numbers Sum to x</a></li>
+            <li><a href="#q2">Q2: Median of Union of Two Sorted Arrays</a></li>
+            <li><a href="#q3">Q3: k-th Smallest in Union of Two Sorted Arrays</a></li>
+            <li><a href="#q4">Q4: k-th Smallest in Union of \( \ell \) Sorted Arrays</a></li>
+            <li><a href="#q5">Q5: Merge \( k \) Sorted Arrays</a></li>
+            <li><a href="#q6">Q6: Single Element Appearing Once</a></li>
+            <li><a href="#q8">Q8: Nearest Index \( j > A[i] \)</a></li>
+            <li><a href="#q9">Q9: Move Zeros to Right</a></li>
+            <li><a href="#q11">Q11: Median of Stream</a></li>
+            <li><a href="#q13">Q13: Missing Element in 1 to n</a></li>
+            <li><a href="#q15">Q15: Merge Intersecting Ranges</a></li>
+            <li><a href="#q16">Q16: Common Elements in Three Arrays</a></li>
+            <li><a href="#q17">Q17: Extra Element in Two Arrays</a></li>
+            <li><a href="#q18">Q18: Closest Element in Sorted Array</a></li>
+            <li><a href="#q19">Q19: Local Maximum in 1D Array</a></li>
+            <li><a href="#q20">Q20: Local Maximum in 2D Array</a></li>
+            <li><a href="#q23">Q23: Maximize Stock Profit</a></li>
+            <li><a href="#q24">Q24: Best Selling Day for Each Day</a></li>
+            <li><a href="#q27">Q27: Index \( i \) Where \( A[i] = i \)</a></li>
+            <li><a href="#q28">Q28: Number of Non-Zero Elements</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Brute Force Solutions to Array Questions</h1>
+
+        <!-- Q1 -->
+        <div class="question" id="q1">
+            <a class="anchor" name="q1"></a>
+            <h2>1. Find Two Numbers That Sum to \( x \)</h2>
+            <p><strong>Problem:</strong> Given an integer \( x \) and an array of numbers, find if two numbers in the array sum up to \( x \). (Or, find the pair whose sum is closest to \( x \).)</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findPairSum(arr, x):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            IF arr[i] + arr[j] = x:
+                RETURN (arr[i], arr[j])
+    RETURN NULL
+            </pre>
+            <p><strong>Explanation:</strong> Check all pairs of elements to find two whose sum equals \( x \).</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question" id="q2">
+            <a class="anchor" name="q2"></a>
+            <h2>2. Median of Union of Two Sorted Arrays</h2>
+            <p><strong>Problem:</strong> Given two sorted arrays, find the median of the union of elements.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findMedian(A, B):
+    C = MERGE(A, B)
+    n = length(C)
+    IF n MOD 2 = 0:
+        RETURN (C[n/2 - 1] + C[n/2]) / 2
+    RETURN C[n/2]
+
+FUNCTION MERGE(A, B):
+    result = EMPTY array
+    i = 0, j = 0
+    WHILE i < length(A) AND j < length(B):
+        IF A[i] <= B[j]:
+            ADD A[i] to result
+            i = i + 1
+        ELSE:
+            ADD B[j] to result
+            j = j + 1
+    WHILE i < length(A):
+        ADD A[i] to result
+        i = i + 1
+    WHILE j < length(B):
+        ADD B[j] to result
+        j = j + 1
+    RETURN result
+            </pre>
+            <p><strong>Explanation:</strong> Merge the arrays into a sorted array and find the median based on the total length.</p>
+            <p><strong>Runtime Analysis:</strong> O(n + m) time, O(n + m) space.</p>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question" id="q3">
+            <a class="anchor" name="q3"></a>
+            <h2>3. k-th Smallest in Union of Two Sorted Arrays</h2>
+            <p><strong>Problem:</strong> Given two sorted arrays, find the \( k \)-th smallest element in the union of elements.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findKth(A, B, k):
+    C = MERGE(A, B)
+    IF k > length(C) OR k < 1:
+        RETURN NULL
+    RETURN C[k - 1]
+
+FUNCTION MERGE(A, B):
+    result = EMPTY array
+    i = 0, j = 0
+    WHILE i < length(A) AND j < length(B):
+        IF A[i] <= B[j]:
+            ADD A[i] to result
+            i = i + 1
+        ELSE:
+            ADD B[j] to result
+            j = j + 1
+    WHILE i < length(A):
+        ADD A[i] to result
+        i = i + 1
+    WHILE j < length(B):
+        ADD B[j] to result
+        j = j + 1
+    RETURN result
+            </pre>
+            <p><strong>Explanation:</strong> Merge the arrays into a sorted array and return the \( k \)-th element.</p>
+            <p><strong>Runtime Analysis:</strong> O(n + m) time, O(n + m) space.</p>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question" id="q4">
+            <a class="anchor" name="q4"></a>
+            <h2>4. k-th Smallest in Union of \( \ell \) Sorted Arrays</h2>
+            <p><strong>Problem:</strong> Find the \( k \)-th smallest element in the union of \( \ell \) sorted arrays. What is the running time?</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findKthMulti(arrays, k):
+    result = EMPTY array
+    FOR each array in arrays:
+        FOR each element in array:
+            ADD element to result
+    n = length(result)
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            IF result[j] < result[i]:
+                SWAP result[i] and result[j]
+    IF k > n OR k < 1:
+        RETURN NULL
+    RETURN result[k - 1]
+            </pre>
+            <p><strong>Explanation:</strong> Concatenate all arrays and sort them, then return the \( k \)-th element.</p>
+            <p><strong>Runtime Analysis:</strong> O(n * log n) time for sorting (where \( n \) is total elements), O(n) space.</p>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question" id="q5">
+            <a class="anchor" name="q5"></a>
+            <h2>5. Merge \( k \) Sorted Arrays</h2>
+            <p><strong>Problem:</strong> Merge \( k \) sorted arrays into a single sorted array.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION mergeKArrays(arrays):
+    result = EMPTY array
+    FOR each array in arrays:
+        FOR each element in array:
+            ADD element to result
+    n = length(result)
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            IF result[j] < result[i]:
+                SWAP result[i] and result[j]
+    RETURN result
+            </pre>
+            <p><strong>Explanation:</strong> Concatenate all arrays and sort using bubble sort.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time (where \( n \) is total elements), O(n) space.</p>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question" id="q6">
+            <a class="anchor" name="q6"></a>
+            <h2>6. Single Element Appearing Once</h2>
+            <p><strong>Problem:</strong> Given an unsorted array where every integer appears twice except one, find it.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findSingle(arr):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        count = 0
+        FOR j = 0 to n - 1:
+            IF arr[j] = arr[i]:
+                count = count + 1
+        IF count = 1:
+            RETURN arr[i]
+    RETURN NULL
+            </pre>
+            <p><strong>Explanation:</strong> Count occurrences of each element; the one with count 1 is the answer.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question" id="q8">
+            <a class="anchor" name="q8"></a>
+            <h2>8. Nearest Index \( j > A[i] \)</h2>
+            <p><strong>Problem:</strong> For each \( i \), find the nearest \( j > i \) where \( A[j] > A[i] \), report -1 if none.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION nearestLarger(arr):
+    n = length(arr)
+    result = ARRAY of length(n), fill with -1
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            IF arr[j] > arr[i]:
+                result[i] = j
+                BREAK
+    RETURN result
+            </pre>
+            <p><strong>Explanation:</strong> For each \( i \), scan all \( j > i \) to find the first larger element.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(n) space.</p>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question" id="q9">
+            <a class="anchor" name="q9"></a>
+            <h2>9. Move Zeros to Right</h2>
+            <p><strong>Problem:</strong> Move all zeros to the right end with \( O(1) \) extra storage.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION moveZeros(arr):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            IF arr[i] = 0 AND arr[j] ≠ 0:
+                SWAP arr[i] and arr[j]
+    RETURN arr
+            </pre>
+            <p><strong>Explanation:</strong> Use bubble sort-like swaps to push zeros to the end.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q11 -->
+        <div class="question" id="q11">
+            <a class="anchor" name="q11"></a>
+            <h2>11. Median of Stream</h2>
+            <p><strong>Problem:</strong> Return the median of numbers seen so far in a stream.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION getMedian(stream):
+    numbers = EMPTY array
+    WHILE stream has next:
+        ADD next number to numbers
+        n = length(numbers)
+        FOR i = 0 to n - 1:
+            FOR j = i + 1 to n - 1:
+                IF numbers[j] < numbers[i]:
+                    SWAP numbers[i] and numbers[j]
+        IF n MOD 2 = 0:
+            RETURN (numbers[n/2 - 1] + numbers[n/2]) / 2
+        RETURN numbers[n/2]
+            </pre>
+            <p><strong>Explanation:</strong> Store all numbers, sort after each addition, and compute the median.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) per update, O(n) space.</p>
+        </div>
+
+        <!-- Q13 -->
+        <div class="question" id="q13">
+            <a class="anchor" name="q13"></a>
+            <h2>13. Missing Element in 1 to n</h2>
+            <p><strong>Problem:</strong> Find the missing element from 1 to \( n \), or two missing if applicable.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findMissing(arr):
+    n = length(arr) + 1
+    missing = EMPTY list
+    FOR i = 1 to n:
+        found = false
+        FOR j = 0 to length(arr) - 1:
+            IF arr[j] = i:
+                found = true
+                BREAK
+        IF NOT found:
+            ADD i to missing
+        IF length(missing) = 2:
+            BREAK
+    RETURN missing
+            </pre>
+            <p><strong>Explanation:</strong> Check each number from 1 to \( n \) for presence, stop after two misses.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q15 -->
+        <div class="question" id="q15">
+            <a class="anchor" name="q15"></a>
+            <h2>15. Merge Intersecting Ranges</h2>
+            <p><strong>Problem:</strong> Merge intersecting ranges into disjoint ranges.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION mergeRanges(ranges):
+    changed = true
+    WHILE changed:
+        changed = false
+        n = length(ranges)
+        FOR i = 0 to n - 1:
+            FOR j = i + 1 to n - 1:
+                IF ranges[i][1] >= ranges[j][0]:
+                    ranges[i][1] = MAX(ranges[i][1], ranges[j][1])
+                    REMOVE ranges[j]
+                    changed = true
+                    BREAK
+    RETURN ranges
+            </pre>
+            <p><strong>Explanation:</strong> Repeatedly check and merge overlapping ranges until no overlaps remain.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) per pass, O(n²) total in worst case, O(n) space.</p>
+        </div>
+
+        <!-- Q16 -->
+        <div class="question" id="q16">
+            <a class="anchor" name="q16"></a>
+            <h2>16. Common Elements in Three Arrays</h2>
+            <p><strong>Problem:</strong> Find elements common to three sorted arrays.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findCommon(A, B, C):
+    common = EMPTY list
+    FOR i = 0 to length(A) - 1:
+        FOR j = 0 to length(B) - 1:
+            IF A[i] = B[j]:
+                FOR k = 0 to length(C) - 1:
+                    IF B[j] = C[k]:
+                        ADD A[i] to common
+    RETURN common
+            </pre>
+            <p><strong>Explanation:</strong> Check each element of A against B, then C, for common elements.</p>
+            <p><strong>Runtime Analysis:</strong> O(n³) time, O(k) space (k = number of common elements).</p>
+        </div>
+
+        <!-- Q17 -->
+        <div class="question" id="q17">
+            <a class="anchor" name="q17"></a>
+            <h2>17. Extra Element in Two Arrays</h2>
+            <p><strong>Problem:</strong> Find the extra element and its index in two nearly identical sorted arrays.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findExtra(A, B):
+    n = length(A)
+    m = length(B)
+    IF n = m:
+        RETURN NULL
+    FOR i = 0 to n - 1:
+        found = false
+        FOR j = 0 to m - 1:
+            IF A[i] = B[j]:
+                found = true
+                BREAK
+        IF NOT found:
+            RETURN (A[i], i)
+    RETURN NULL
+            </pre>
+            <p><strong>Explanation:</strong> Check each element of A in B; the first not found is the extra element.</p>
+            <p><strong>Runtime Analysis:</strong> O(n * m) time, O(1) space.</p>
+        </div>
+
+        <!-- Q18 -->
+        <div class="question" id="q18">
+            <a class="anchor" name="q18"></a>
+            <h2>18. Closest Element in Sorted Array</h2>
+            <p><strong>Problem:</strong> Find the element closest to a given number in a sorted array.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findClosest(arr, target):
+    n = length(arr)
+    min_diff = ABS(arr[0] - target)
+    closest = arr[0]
+    FOR i = 1 to n - 1:
+        diff = ABS(arr[i] - target)
+        IF diff < min_diff:
+            min_diff = diff
+            closest = arr[i]
+    RETURN closest
+            </pre>
+            <p><strong>Explanation:</strong> Compare the absolute difference of each element with the target to find the closest.</p>
+            <p><strong>Runtime Analysis:</strong> O(n) time, O(1) space.</p>
+        </div>
+
+        <!-- Q19 -->
+        <div class="question" id="q19">
+            <a class="anchor" name="q19"></a>
+            <h2>19. Local Maximum in 1D Array</h2>
+            <p><strong>Problem:</strong> Find a local maximum \( A[i] \geq \) neighbors.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findLocalMax(arr):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        is_max = true
+        IF i > 0 AND arr[i] < arr[i - 1]:
+            is_max = false
+        IF i < n - 1 AND arr[i] < arr[i + 1]:
+            is_max = false
+        IF is_max:
+            RETURN arr[i]
+    RETURN NULL
+            </pre>
+            <p><strong>Explanation:</strong> Check each element against its neighbors to find a local maximum.</p>
+            <p><strong>Runtime Analysis:</strong> O(n) time, O(1) space.</p>
+        </div>
+
+        <!-- Q20 -->
+        <div class="question" id="q20">
+            <a class="anchor" name="q20"></a>
+            <h2>20. Local Maximum in 2D Array</h2>
+            <p><strong>Problem:</strong> Find a local maximum \( A[i][j] \geq \) vertical and horizontal neighbors.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findLocalMax2D(matrix):
+    n = length(matrix)
+    FOR i = 0 to n - 1:
+        FOR j = 0 to n - 1:
+            is_max = true
+            IF i > 0 AND matrix[i][j] < matrix[i-1][j]:
+                is_max = false
+            IF i < n - 1 AND matrix[i][j] < matrix[i+1][j]:
+                is_max = false
+            IF j > 0 AND matrix[i][j] < matrix[i][j-1]:
+                is_max = false
+            IF j < n - 1 AND matrix[i][j] < matrix[i][j+1]:
+                is_max = false
+            IF is_max:
+                RETURN matrix[i][j]
+    RETURN NULL
+            </pre>
+            <p><strong>Explanation:</strong> Check each element against its four neighbors to find a local maximum.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q23 -->
+        <div class="question" id="q23">
+            <a class="anchor" name="q23"></a>
+            <h2>23. Maximize Stock Profit</h2>
+            <p><strong>Problem:</strong> Find maximum profit by buying and selling on subsequent days.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION maxProfit(prices):
+    n = length(prices)
+    max_profit = 0
+    FOR i = 0 to n - 1:
+        FOR j = i + 1 to n - 1:
+            profit = prices[j] - prices[i]
+            IF profit > max_profit:
+                max_profit = profit
+    RETURN max_profit
+            </pre>
+            <p><strong>Explanation:</strong> Check all buy-sell pairs to find the maximum profit.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(1) space.</p>
+        </div>
+
+        <!-- Q24 -->
+        <div class="question" id="q24">
+            <a class="anchor" name="q24"></a>
+            <h2>24. Best Selling Day for Each Day</h2>
+            <p><strong>Problem:</strong> For each day \( i \), find \( j > i \) maximizing \( A[j] - A[i] \).</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION bestSellDays(prices):
+    n = length(prices)
+    result = ARRAY of length(n)
+    FOR i = 0 to n - 1:
+        max_profit = 0
+        best_j = i
+        FOR j = i + 1 to n - 1:
+            profit = prices[j] - prices[i]
+            IF profit > max_profit:
+                max_profit = profit
+                best_j = j
+        result[i] = best_j
+    RETURN result
+            </pre>
+            <p><strong>Explanation:</strong> For each day, scan future days to find the best selling day.</p>
+            <p><strong>Runtime Analysis:</strong> O(n²) time, O(n) space.</p>
+        </div>
+
+        <!-- Q27 -->
+        <div class="question" id="q27">
+            <a class="anchor" name="q27"></a>
+            <h2>27. Index \( i \) Where \( A[i] = i \)</h2>
+            <p><strong>Problem:</strong> Find an index \( i \) where \( A[i] = i \) in a sorted array.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findFixedPoint(arr):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        IF arr[i] = i:
+            RETURN i
+    RETURN -1
+            </pre>
+            <p><strong>Explanation:</strong> Check each index to see if \( A[i] = i \).</p>
+            <p><strong>Runtime Analysis:</strong> O(n) time, O(1) space.</p>
+        </div>
+
+        <!-- Q28 -->
+        <div class="question" id="q28">
+            <a class="anchor" name="q28"></a>
+            <h2>28. Number of Non-Zero Elements</h2>
+            <p><strong>Problem:</strong> Find \( n \) where the first \( n \) entries are positive and the rest are 0.</p>
+            <p><strong>Brute Force Solution:</strong></p>
+            <pre>
+FUNCTION findNonZeroCount(arr):
+    n = length(arr)
+    FOR i = 0 to n - 1:
+        IF arr[i] = 0:
+            RETURN i
+    RETURN n
+            </pre>
+            <p><strong>Explanation:</strong> Scan until the first zero to determine \( n \).</p>
+            <p><strong>Runtime Analysis:</strong> O(n) time, O(1) space.</p>
+        </div>
+
+    </div>
+</body>
+</html>
